@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composebasics.ui.theme.ComposeBasicsTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.material.MaterialTheme
+import com.example.composebasics.ui.theme.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +31,34 @@ class MainActivity : AppCompatActivity() {
                 MyScreenContent()
             }
         }
+    }
+}
+
+private val DarkColors = darkColors(
+    primary = Purple200,
+    primaryVariant = Purple700,
+    secondary = Teal200
+)
+
+private val LightColors = lightColors(
+    primary = Purple500,
+    primaryVariant = Purple700,
+    secondary = Teal200
+)
+
+@Composable
+fun ComposeBasicsTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
+){
+    val colors = if (darkTheme){
+        DarkColors
+    } else{
+        LightColors
+    }
+
+    MaterialTheme(colors = colors){
+        content()
     }
 }
 
@@ -61,7 +93,8 @@ fun Greeting(name: String) {
         modifier = Modifier
             .padding(24.dp)
             .background(color = backgroundColor)
-            .clickable(onClick = { isSelected = !isSelected })
+            .clickable(onClick = { isSelected = !isSelected }),
+        style = MaterialTheme.typography.body1
     )
 }
 
